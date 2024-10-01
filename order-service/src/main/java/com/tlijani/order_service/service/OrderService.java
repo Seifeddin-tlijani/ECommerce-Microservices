@@ -21,7 +21,7 @@ public class OrderService {
 
 
     private final OrderRepository orderRepository;
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
     public void placeOrder(OrderRequest orderRequest){
         Order order = new Order();
@@ -43,8 +43,8 @@ public class OrderService {
 
         //to be like this http://localhost:8085/api/inventory?skuCode=iphone-16&skuCode=iphone16-red
 
-        InventoryResponse[] inventoryResponses = webClient.get()
-                .uri("http://localhost:8087/api/inventory", uriBuilder ->
+        InventoryResponse[] inventoryResponses = webClientBuilder.build().get()
+                .uri("http://inventory-service/api/inventory", uriBuilder ->
                         uriBuilder.queryParam("skuCode", skuCodes).build())
                 .retrieve()
                 .bodyToMono(InventoryResponse[].class)
