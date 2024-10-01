@@ -14,5 +14,6 @@ The application uses the following microservices:
 - **Product Service**: Handles product catalog operations such as listing, adding, and updating products.
 - **Order Service**: Manages order creation, order status updates, and order history.
 - **Inventory Service**: Monitors and updates inventory levels for products.
+- **Discovery Service**:Implemented Eureka Server to enable service discovery across microservices.
 - **API Gateway**: Routes client requests to the appropriate microservices and acts as a unified entry point for the system.
 
