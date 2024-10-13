@@ -40,7 +40,7 @@ The application is developed using a combination of technologies, including but 
 - **Spring Boot**: For building microservices.
 - **Spring Cloud**: For cloud-native development, including service discovery and configuration management.
 - **Docker**: For containerizing services and ensuring consistency across different environments.
-- **PostgreSQL/MySQL**: For persistent data storage.
+- **MySQL/MongoDb**: For persistent data storage.
 - **Resilience4j**: For implementing fault tolerance and resilience patterns.
 
 
