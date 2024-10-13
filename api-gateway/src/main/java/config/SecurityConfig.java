@@ -19,15 +19,11 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity httpSecurity) {
 
-        httpSecurity.authorizeExchange(authorize  -> authorize
-                        .pathMatchers(eurekaFreeEndpoints)
-                        .permitAll()
-                        .anyExchange()
-                        .authenticated())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+        return httpSecurity.authorizeExchange(authorize  -> authorize.anyExchange().authenticated())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())).build();
 
-        return httpSecurity.build();
     }
+
 
 
 
