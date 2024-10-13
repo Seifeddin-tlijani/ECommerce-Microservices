@@ -8,6 +8,8 @@ import com.tlijani.order_service.model.Order;
 import com.tlijani.order_service.model.OrderLineItem;
 import com.tlijani.order_service.repos.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -18,6 +20,9 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
+
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
 
     private final OrderRepository orderRepository;
@@ -39,6 +44,7 @@ public class OrderService {
                 .map(OrderLineItem::getSkuCode)
                 .toList();
 
+        logger.info("Placing order: {}", orderRequest);
 
 
         //to be like this http://localhost:8085/api/inventory?skuCode=iphone-16&skuCode=iphone16-red
@@ -72,4 +78,10 @@ public class OrderService {
 
         return orderLineItem;
     }
+
+    public List<Order> getAllOrders() {
+
+        return orderRepository.findAll();
+    }
+
 }
