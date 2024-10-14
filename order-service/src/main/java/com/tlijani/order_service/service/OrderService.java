@@ -4,12 +4,15 @@ package com.tlijani.order_service.service;
 import com.tlijani.order_service.dto.InventoryResponse;
 import com.tlijani.order_service.dto.OrderLineItemDto;
 import com.tlijani.order_service.dto.OrderRequest;
+import com.tlijani.order_service.event.OrderPlacedEvent;
 import com.tlijani.order_service.model.Order;
 import com.tlijani.order_service.model.OrderLineItem;
 import com.tlijani.order_service.repos.OrderRepository;
+import javassist.bytecode.stackmap.Tracer;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -27,6 +30,9 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
+
+
 
     public void placeOrder(OrderRequest orderRequest){
         Order order = new Order();
@@ -62,6 +68,11 @@ public class OrderService {
         if (allProductsInStock) {
             System.out.println("All products are in stock, saving order"+ order);
             orderRepository.save(order);
+
+            kafkaTemplate.send("order-placed" , new OrderPlacedEvent(order.getOrderNumber()));
+
+
+
         } else {
             System.out.println("Not all products are in stock for order"+ order);
 
